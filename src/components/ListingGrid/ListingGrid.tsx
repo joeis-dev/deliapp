@@ -7,21 +7,28 @@ interface Listing {
   name: string;
   description: string;
   rating: number;
-  image?: string; // Optional image property
+  price: BigDecimal;
+  imageUrl?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
-function ListingGrid() {
-  // In a real app, you'd fetch and map data here
-  const listings: Listing[] = [
-    { id: 1, name: 'Delicious Pizza', description: 'Best pizza in town!', rating: 4.5, image: '...' },
-    { id: 2, name: 'Quick Plumbing', description: 'Reliable plumbing services', rating: 4.8 }, // Image is optional
-    // ... more listings
-  ];
+interface ListingGridProps {
+  listings: Listing[];
+}
 
+function ListingGrid({ listings }: ListingGridProps) {
   return (
     <div className="listing-grid">
       {listings.map((listing) => (
-        <ListingCard key={listing.id} listing={listing} />
+        <div key={listing.id} className="listing-card">
+          {listing.imageUrl && <img src={listing.imageUrl} alt={listing.name} />}
+          <h3>{listing.name}</h3>
+          <p>{listing.description.substring(0, 50)}...</p>
+          <p>Price: ${listing.price}</p>
+          <p>Rating: {/* You'll add rating logic later */}</p>
+          <button>View Details</button>
+        </div>
       ))}
     </div>
   );
