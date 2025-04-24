@@ -1,23 +1,25 @@
-import React from 'react';
-import ListingCard from '../ListingCard/ListingCard';
-
 // Define a type for our listing object
-interface Listing {
+export interface Listing {
   id: number;
   name: string;
   description: string;
   rating: number;
-  price: BigDecimal;
+  price: number;
   imageUrl?: string;
   latitude?: number;
   longitude?: number;
 }
 
-interface ListingGridProps {
+export interface ListingGridProps {
   listings: Listing[];
+  loading: boolean;
 }
 
-function ListingGrid({ listings }: ListingGridProps) {
+function ListingGrid({ listings, loading }: ListingGridProps) {
+  if(loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="listing-grid">
       {listings.map((listing) => (

@@ -1,0 +1,24 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80" # Map host port 3000 to container port 80 (Nginx)
+    environment:
+      - REACT_APP_API_BASE_URL=http://backend:8080/api
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend/listings
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080 (Spring Boot)
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev # Or any other Spring profiles you need
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

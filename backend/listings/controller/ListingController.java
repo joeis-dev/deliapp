@@ -1,7 +1,7 @@
-package deliapp.listings.controller;
+package listings.controller;
 
-import com.example.listings.model.Listing;
-import com.example.listings.service.ListingService;
+import listings.model.Listing;
+import listings.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 function CategoryFilter() {
   const categories: string[] = ['All', 'Food', 'Services', 'Grocery'];
 

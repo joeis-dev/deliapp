@@ -1,7 +1,7 @@
-package deliapp.listings.service;
+package listings.service;
 
-import com.example.listings.model.Listing;
-import com.example.listings.repository.ListingRepository;
+import listings.model.Listing;
+import listings.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

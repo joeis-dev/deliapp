@@ -1,6 +1,6 @@
-package deliapp.listings.repository;
+package listings.repository;
 
-import com.example.listings.model.Listing;
+import listings.model.Listing;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package deliapp.listings.model;
+package listings.model;
 
 import lombok.Data;
 import javax.persistence.*;

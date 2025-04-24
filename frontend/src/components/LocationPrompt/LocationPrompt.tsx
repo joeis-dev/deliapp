@@ -1,6 +1,5 @@
 // Default, { other, exports}
 import React, { useState, useEffect } from 'react';
-import ListingGrid from '../ListingGrid/ListingGrid';
 
 interface LocationState {
   latitude: number | null,
@@ -8,8 +7,13 @@ interface LocationState {
   error: string | null
 }
 
-function LocationPrompt() {
+export interface LocationPromptProps {
+  onLocationUpdate: (location: LocationState) => void;
+  onRadiusChange: (radius: number) => void;
+  currentRadius: number; // value update while using the comp. after init value from parent was used.
+}
 
+const LocationPrompt = ({ onLocationUpdate, onRadiusChange, currentRadius }: LocationPromptProps) => {
   // Hooks
   // result, setter func = <State to be update>
   const [location, setLocation] = useState<LocationState>({
@@ -17,63 +21,50 @@ function LocationPrompt() {
     longitude: null,
     error: null
   });
-  const [radius, setRadius] = useState<number>(5); // default 5km radius
-  const [loadingListings, setLoadingListings] = useState<boolean>(false);
-  const [listings, setListings] = useState<Listing[]>([]);
+
+  // local -> value passed from its parent component
+  const [localRadius, setLocalRadius] = useState<number>(currentRadius);
   
   useEffect(() => {
     // Check if geolocation is supported
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
+          const newLocation = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
             error: null
-          });
+          } 
+          setLocation(newLocation);
+          onLocationUpdate(newLocation);
         },
         (error) => {
-          setLocation({
+          const newLocation = {
             latitude: null,
             longitude: null,
-            error: error.message
-          });
-
+            error: error.message 
+          } 
+          setLocation(newLocation);
+          onLocationUpdate(newLocation);
           alert('Geolocation is not supported by this browser.');
         }
       );
     } else {
-      setLocation({
-        latitude: null,
-        longitude: null,
-        error: 'Geolocation is not supported by this browser.'
-      });
-
+      const newLocation = {
+        latitude: null, 
+        longitude: null, 
+        error: 'Geolocation is not supported by this browser.' 
+      } 
+      setLocation(newLocation);
+      onLocationUpdate(newLocation);
       alert('Geolocation is not supported by this browser.');
     }
-  }, []);
-
-  useEffect(() => {
-    if(location.latitude && location.longitude) {
-      fetchNearbyListings(location.latitude, location.longitude, radius)
-  }, [location, radius]);
-
-  const fetchNearbyListings = async (latitude: number, longitude: number, radius: number) => {
-    setLoadingListings(true);
-    try {
-      const response = await fetch(`http://localhost:8080/api/listings/nearby?latitude=<span class="math-inline">\{latitude\}&longitude\=</span>{longitude}&radius=${searchRadius}`);
-      const data = await response.json();
-      setListings(data);
-    } catch (error) {
-      console.error('Error fetching listings:', error);
-    } finally {
-      setLoadingListings(false);
-    }
-  };
+  }, [onLocationUpdate]);
 
   // a listener
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRadius(Number(event.target.value));
+    setLocalRadius(Number(event.target.value)); // local state
+    onRadiusChange(Number(event.target.value)); // notifies parent component so their brother (listing) can read its data
   };
 
   return (
@@ -81,18 +72,17 @@ function LocationPrompt() {
       <p>Where are you located?</p>
         { location.latitude && location.longitude 
           ? 
-            (<p>Latitude: {location.latitude.toFixed(2)}, Longitude: {location.longitude.toFixed(2)}</p>);
+            (<p>Latitude: {location.latitude.toFixed(2)}, Longitude: {location.longitude.toFixed(2)}</p>)
           :
-            (<p>{ location.error || 'Fetching location ...'}</p>);
+            (<p>{ location.error || 'Fetching location ...'}</p>)
         }
-      }
 
       <div>
         <label htmlFor="radius">Search Radius (km):</label>
         <input
           type="number"
           id="radius"
-          value={radius}
+          value={localRadius}
           onChange={handleRadiusChange}
         />
       </div>
