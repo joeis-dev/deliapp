@@ -6,9 +6,10 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 COPY gradle ./gradle
 
+# Get dependencies
 RUN gradle dependencies --write-locks
 
-COPY . . 
+COPY . .
 
 RUN gradle bootJar
 
