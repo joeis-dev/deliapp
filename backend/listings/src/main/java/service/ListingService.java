@@ -28,7 +28,7 @@ public class ListingService {
         double minLongitude = longitude - lonDiff;
         double maxLongitude = longitude + lonDiff;
 
-        return listingRepository.findByLatitudeBetweenAndLongitudeBetween(
+        return listingRepository.findBusinessInThisSquaredArea(
                 minLatitude, maxLatitude, minLongitude, maxLongitude
         );
         // For production, consider using PostGIS or more sophisticated spatial queries

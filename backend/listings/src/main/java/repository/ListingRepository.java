@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ListingRepository extends JpaRepository<Listing, Long> {
   // You can add custom query methods here, e.g.,
-  List<Listing> findByLatitudeAndLongitude(
+  List<Listing> findBusinessInThisSquaredArea(
           double minLatitude, double maxLatitude, double minLongitude, double maxLongitude
   );
   // For radius-based search, you'd typically use a more complex query or PostGIS functions

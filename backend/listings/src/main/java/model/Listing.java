@@ -1,11 +1,12 @@
 package listings.model;
 
-import lombok.Data;
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import java.math.BigDecimal;
 
 @Entity
-@Data
 public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

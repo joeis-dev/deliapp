@@ -12,14 +12,6 @@ java {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 
-    // Set this if you are not using Java Standard Set Directory (src.main.java.yourPackages ...)
-    // sourceSets {
-    //   main {
-    //       java {
-    //         srcDirs = ['listings'] 
-    //       }
-    //   }      
-    // }
 }
 
 repositories {
