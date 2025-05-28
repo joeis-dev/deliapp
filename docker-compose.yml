@@ -11,14 +11,35 @@ services:
       - app-network
 
   backend:
-    build: ./backend/listings
+    build: ./backend/product/
     ports:
       - "8080:8080" # Map host port 8080 to container port 8080 (Spring Boot)
     environment:
       - SPRING_PROFILES_ACTIVE=dev # Or any other Spring profiles you need
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/product
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=postgres
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:17
+    environment:
+      - POSTGRES_DB=deliapp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  postgres-data:

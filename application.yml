@@ -1,0 +1,10 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/yourdb  # Reactive PostgreSQL URL
+    username: dbuser
+    password: dbpass
+  webflux:
+    base-path: /api  # (Optional) Global API prefix
+
+server:
+  port: 8080  # Overrides default port (8080)
